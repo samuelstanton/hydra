@@ -112,6 +112,7 @@ module.exports = {
                 ]
             },
             'advanced/defaults_list',
+            'advanced/new_overriding_packages',
             'advanced/overriding_packages',
             'advanced/search_path',
             'advanced/plugins',
