@@ -57,7 +57,7 @@ def launch_jobs(temp_dir: str) -> None:
             )
             runs.append(ray_obj)
 
-    result = [ray.get(run) for run in runs]
+    result = ray.get(runs)
     _dump_job_return(result, temp_dir)
 
 
