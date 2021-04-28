@@ -33,22 +33,18 @@ def launch_jobs(temp_dir: str) -> None:
         singleton_state = job_spec["singleton_state"]
         sweep_configs = job_spec["sweep_configs"]
         task_function = job_spec["task_function"]
-
+        ray_init_cfg = job_spec["ray_init_cfg"]
         instance_id = _get_instance_id()
-
-        setup_globals()
-        Singleton.set_state(singleton_state)
-        import pdb; pdb.set_trace()
-        ray_init = sweep_config.hydra.launcher.ray.init
-        start_ray(ray_init)
-
         sweep_dir = None
+
+        start_ray(ray_init_cfg)
         for sweep_config in sweep_configs:
             with open_dict(sweep_config):
                 sweep_config.hydra.job.id = (
                     f"{instance_id}_{sweep_config.hydra.job.num}"
                 )
-
+            setup_globals()
+            Singleton.set_state(singleton_state)
             HydraConfig.instance().set_config(sweep_config)
             ray_remote = sweep_config.hydra.launcher.ray.remote
 
